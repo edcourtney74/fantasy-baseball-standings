@@ -1,6 +1,6 @@
-import React from "react";
-import Table from "react-bootstrap/Table";
-import { TeamWeek } from "../Interfaces";
+import React from 'react';
+import Table from 'react-bootstrap/Table';
+import { TeamWeek } from '../Interfaces';
 
 type OverallStandingsProps = {
   teams: TeamWeek[];
@@ -9,30 +9,27 @@ type OverallStandingsProps = {
 };
 
 const OverallStandings = (props: OverallStandingsProps) => (
-  <Table striped bordered>
+  <Table striped bordered responsive>
     <thead>
       <tr>
         <th>Team Name</th>
         <th>
-          <a href="#" onClick={() => props.onClickAsc("wins", "total_points")}>
+          <a href='#' onClick={() => props.onClickAsc('wins', 'total_points')}>
             Wins
           </a>
         </th>
         <th>
-          <a
-            href="#"
-            onClick={() => props.onClickDesc("losses", "total_points")}
-          >
+          <a href='#' onClick={() => props.onClickDesc('losses', 'total_points')}>
             Losses
           </a>
         </th>
         <th>
-          <a href="#" onClick={() => props.onClickAsc("ties", "total_points")}>
+          <a href='#' onClick={() => props.onClickAsc('ties', 'total_points')}>
             Ties
           </a>
         </th>
         <th>
-          <a href="#" onClick={() => props.onClickAsc("total_points", "wins")}>
+          <a href='#' onClick={() => props.onClickAsc('total_points', 'wins')}>
             Total Points
           </a>
         </th>

@@ -2,8 +2,12 @@ nav {
   background-color: #d33658;
 }
 
+.navbar {
+  width: 100%;
+  white-space: nowrap;
+}
 .container {
   background-color: white;
-  margin: 1rem;
-  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }

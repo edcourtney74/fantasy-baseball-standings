@@ -1,18 +1,13 @@
-import React from "react";
-import { getAllStandings } from "./services/getStandings";
-import {
-  calculateOverallStats,
-  sortAscStandings,
-  sortDescStandings,
-  getWeeklyResults,
-} from "./utils/functions";
-import HomeNavbar from "./components/Navbar";
-import Container from "react-bootstrap/Container";
-import OverallStandings from "./components/OverallStandings";
-import WeeklyResults from "./components/WeeklyResults";
-import StandingsSelector from "./components/StandingsSelector";
-import { TeamWeek } from "./Interfaces";
-import "./App.css";
+import React from 'react';
+import { getAllStandings } from './services/getStandings';
+import { calculateOverallStats, sortAscStandings, sortDescStandings, getWeeklyResults } from './utils/functions';
+import Container from 'react-bootstrap/Container';
+import HomeNavbar from './components/Navbar';
+import OverallStandings from './components/OverallStandings';
+import WeeklyResults from './components/WeeklyResults';
+import StandingsSelector from './components/StandingsSelector';
+import { TeamWeek } from './Interfaces';
+import './App.css';
 
 type AppProps = {};
 type AppState = {
@@ -40,7 +35,7 @@ class App extends React.Component<AppProps, AppState> {
   };
 
   async componentDidMount() {
-    document.body.style.background = "#9bcaf1";
+    document.body.style.background = '#9bcaf1';
     await this.handleInitialStandings();
   }
 
@@ -83,10 +78,7 @@ class App extends React.Component<AppProps, AppState> {
       <div>
         <HomeNavbar></HomeNavbar>
         <Container>
-          <StandingsSelector
-            overallView={this.state.overallView}
-            onClick={this.changeViewClick}
-          />
+          <StandingsSelector overallView={this.state.overallView} onClick={this.changeViewClick} />
           {this.state.overallView ? (
             <OverallStandings
               teams={this.state.combinedRecords}
@@ -94,10 +86,7 @@ class App extends React.Component<AppProps, AppState> {
               onClickDesc={this.standingsDescSortClick}
             />
           ) : (
-            <WeeklyResults
-              week={this.state.week}
-              records={this.state.weeklyRecords}
-            />
+            <WeeklyResults week={this.state.week} records={this.state.weeklyRecords} />
           )}
         </Container>
       </div>
