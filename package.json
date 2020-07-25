@@ -1,7 +1,7 @@
 {
-  "name": "heroku-cra-node",
-  "version": "3.0.0",
-  "description": "How to use create-react-app with a custom Node API on Heroku",
+  "name": "lph-standings",
+  "version": "1.0.0",
+  "description": "Fantasy baseball standings for LPH",
   "engines": {
     "node": "10.x"
   },
@@ -12,22 +12,21 @@
     "format": "./format.sh"
   },
   "dependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-transform-runtime": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/preset-typescript": "^7.3.3",
-    "@babel/register": "^7.5.5",
-    "@types/express": "^4.17.0",
-    "@types/node-fetch": "^2.5.0",
+    "@babel/core": "^7.10.5",
+    "@babel/plugin-transform-runtime": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
+    "@babel/register": "^7.10.5",
     "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.7",
     "@types/mysql": "^2.15.13",
+    "@types/node-fetch": "^2.5.7",
     "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-react-app": "^9.0.1",
-    "express": "^4.16.4",
+    "babel-preset-react-app": "^9.1.2",
     "body-parser": "^1.18.3",
-    "node-fetch": "^2.6.0",
-    "ts-node": "^8.3.0",
+    "express": "^4.16.4",
     "mysql": "^2.18.1",
+    "node-fetch": "^2.6.0",
     "typescript": "^3.9.7"
   },
   "repository": {
