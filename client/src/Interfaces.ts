@@ -4,8 +4,14 @@ export interface TeamWeek {
   wins: number;
   losses: number;
   ties: number;
+  total_points: number;
+  rank: number;
   week: number;
   grouping: number;
-  total_points: number;
   [index: string]: string | number;
+}
+
+export interface Division {
+  divisionName: string;
+  teams: string[];
 }

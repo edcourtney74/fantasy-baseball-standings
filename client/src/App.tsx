@@ -3,7 +3,7 @@ import { getAllStandings } from './services/getStandings';
 import { calculateOverallStats, sortAscStandings, sortDescStandings, getWeeklyResults } from './utils/functions';
 import Container from 'react-bootstrap/Container';
 import HomeNavbar from './components/Navbar';
-import OverallStandings from './components/OverallStandings';
+import DivisionStandings from './components/DivisionStandings';
 import WeeklyResults from './components/WeeklyResults';
 import StandingsSelector from './components/StandingsSelector';
 import { TeamWeek } from './Interfaces';
@@ -14,7 +14,7 @@ type AppState = {
   allRecords: TeamWeek[];
   combinedRecords: TeamWeek[];
   weeklyRecords: TeamWeek[][];
-  overallView: boolean;
+  view: string;
   week: number;
 };
 
@@ -30,7 +30,7 @@ class App extends React.Component<AppProps, AppState> {
     allRecords: [],
     combinedRecords: [],
     weeklyRecords: [],
-    overallView: true,
+    view: 'standings',
     week: 1,
   };
 
@@ -65,11 +65,11 @@ class App extends React.Component<AppProps, AppState> {
     });
   }
 
-  changeViewClick(): void {
-    const weeklyRecords = getWeeklyResults(this.state.allRecords, 1);
+  changeViewClick(view: string): void {
+    // const weeklyRecords = getWeeklyResults(this.state.allRecords, 1);
     this.setState({
-      overallView: !this.state.overallView,
-      weeklyRecords,
+      view,
+      // weeklyRecords,
     });
   }
 
@@ -78,16 +78,17 @@ class App extends React.Component<AppProps, AppState> {
       <div>
         <HomeNavbar></HomeNavbar>
         <Container>
-          <StandingsSelector overallView={this.state.overallView} onClick={this.changeViewClick} />
-          {this.state.overallView ? (
-            <OverallStandings
+          <StandingsSelector view={this.state.view} onClick={this.changeViewClick} />
+          {this.state.view === 'standings' && (
+            <DivisionStandings
               teams={this.state.combinedRecords}
               onClickAsc={this.standingsAscSortClick}
               onClickDesc={this.standingsDescSortClick}
             />
-          ) : (
-            <WeeklyResults week={this.state.week} records={this.state.weeklyRecords} />
           )}
+          {/* : (
+            <WeeklyResults week={this.state.week} records={this.state.weeklyRecords} />
+          )} */}
         </Container>
       </div>
     );
