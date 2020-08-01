@@ -10,15 +10,17 @@ type DivisionStandingsProps = {
 };
 
 const DivisionStandings = (props: DivisionStandingsProps) => (
-  <Table bordered responsive>
+  <Table bordered responsive size='sm'>
     <thead>
       <tr>
-        <th>Rank</th>
+        <th className='text-right' id='rank-col'>
+          Rank
+        </th>
         <th>Team Name</th>
-        <th>Wins</th>
-        <th>Losses</th>
-        <th>Ties</th>
-        <th>Total Points</th>
+        <th className='text-center'>Wins</th>
+        <th className='text-center'>Losses</th>
+        <th className='text-center'>Ties</th>
+        <th className='text-center'>Total Points</th>
       </tr>
     </thead>
     {divisions.map((division) => (
@@ -32,12 +34,14 @@ const DivisionStandings = (props: DivisionStandingsProps) => (
           if (division.teams.includes(team.team_name))
             return (
               <tr key={team.team_name}>
-                <td>{team.rank}</td>
+                <td className='text-right' id='rank-col'>
+                  {team.rank}
+                </td>
                 <td>{team.team_name}</td>
-                <td>{team.wins}</td>
-                <td>{team.losses}</td>
-                <td>{team.ties}</td>
-                <td>{team.total_points}</td>
+                <td className='text-center'>{team.wins}</td>
+                <td className='text-center'>{team.losses}</td>
+                <td className='text-center'>{team.ties}</td>
+                <td className='text-center'>{team.total_points}</td>
               </tr>
             );
         })}

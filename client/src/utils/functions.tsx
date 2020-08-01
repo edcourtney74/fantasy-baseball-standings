@@ -1,5 +1,5 @@
 import { divisions } from './divisions';
-import { TeamWeek, Division } from '../Interfaces';
+import { TeamWeek, Division, Schedule } from '../Interfaces';
 
 // Sorts by wins initially
 export const calculateOverallStats = (allRecords: TeamWeek[]): TeamWeek[] => {
@@ -109,4 +109,21 @@ export const getWeeklyResults = (allRecords: TeamWeek[], week: number): TeamWeek
     }
   });
   return groups;
+};
+
+// Get schedule by current week and sort into arrays base on grouping
+export const getCurrentSchedule = (allSchedule: Schedule[]): Schedule[][] => {
+  const today = new Date();
+  const weeksGames = allSchedule.filter((sked) => today > new Date(sked.start_date) && today < new Date(sked.end_date));
+  const structuredSchedule: Schedule[][] = [];
+  let currentArr: Schedule[] = [];
+  weeksGames.forEach((game, i) => {
+    console.log(i + 1);
+    currentArr.push(game);
+    if ((i + 1) % 4 === 0) {
+      structuredSchedule.push(currentArr);
+      currentArr = [];
+    }
+  });
+  return structuredSchedule;
 };

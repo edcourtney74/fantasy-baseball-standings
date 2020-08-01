@@ -1,5 +1,5 @@
-import { StandingsController } from "./Standings";
+import { StatsController } from './Stats';
 
-const standingsController = new StandingsController();
+const statsController = new StatsController();
 
-export { standingsController };
+export { statsController };

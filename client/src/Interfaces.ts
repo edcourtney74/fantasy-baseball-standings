@@ -15,3 +15,11 @@ export interface Division {
   divisionName: string;
   teams: string[];
 }
+
+export interface Schedule {
+  team_name: string;
+  week: number;
+  grouping: number;
+  start_date: string;
+  end_date: string;
+}
