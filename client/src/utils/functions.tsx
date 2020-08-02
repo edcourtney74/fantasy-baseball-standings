@@ -113,12 +113,15 @@ export const getWeeklyResults = (allRecords: TeamWeek[], week: number): TeamWeek
 
 // Get schedule by current week and sort into arrays base on grouping
 export const getCurrentSchedule = (allSchedule: Schedule[]): Schedule[][] => {
-  const today = new Date();
-  const weeksGames = allSchedule.filter((sked) => today > new Date(sked.start_date) && today < new Date(sked.end_date));
+  const today = new Date().toISOString().slice(0, 10);
+  const weeksGames = allSchedule.filter(
+    (sked) =>
+      today >= new Date(sked.start_date).toISOString().slice(0, 10) &&
+      today <= new Date(sked.end_date).toISOString().slice(0, 10),
+  );
   const structuredSchedule: Schedule[][] = [];
   let currentArr: Schedule[] = [];
   weeksGames.forEach((game, i) => {
-    console.log(i + 1);
     currentArr.push(game);
     if ((i + 1) % 4 === 0) {
       structuredSchedule.push(currentArr);
@@ -126,4 +129,38 @@ export const getCurrentSchedule = (allSchedule: Schedule[]): Schedule[][] => {
     }
   });
   return structuredSchedule;
+};
+
+// Compile schedule into array of weeks, array of groupings
+export const compileSchedule = (allSchedule: Schedule[]): Schedule[][][] => {
+  const finalGroupedSchedule: Schedule[][][] = [];
+  // Hold arrays scheduled by week and group
+  let currentWeekGroup: Schedule[][] = [];
+  // Hold schedule by week and group
+  let currentGrouping: Schedule[] = [];
+  let currentWeekCount = 1;
+  let currentGroupingCount = 1;
+  allSchedule.forEach((sked) => {
+    // If it's a new week, start new arrays
+    if (sked.week !== currentWeekCount) {
+      currentWeekGroup.push(currentGrouping);
+      finalGroupedSchedule.push(currentWeekGroup);
+      currentGrouping = [sked];
+      currentWeekGroup = [];
+      currentWeekCount += 1;
+      currentGroupingCount = 1;
+    } else {
+      // If it's the same week, check if it's part of the same group
+      if (sked.grouping !== currentGroupingCount) {
+        currentWeekGroup.push(currentGrouping);
+        currentGrouping = [sked];
+        currentGroupingCount += 1;
+      } else {
+        currentGrouping.push(sked);
+      }
+    }
+  });
+  currentWeekGroup.push(currentGrouping);
+  finalGroupedSchedule.push(currentWeekGroup);
+  return finalGroupedSchedule;
 };

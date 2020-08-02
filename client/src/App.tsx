@@ -6,16 +6,14 @@ import {
   sortDescStandings,
   getWeeklyResults,
   getCurrentSchedule,
+  compileSchedule,
 } from './utils/functions';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import HomeNavbar from './components/Navbar';
-import StandingsView from './components/StandingsView';
-import ScheduleSidebar from './components/ScheduleSidebar';
-import DivisionStandings from './components/DivisionStandings';
-import WeeklyResults from './components/WeeklyResults';
-import StandingsSelector from './components/StandingsSelector';
+import MainView from './components/MainView';
+import SidebarView from './components/SidebarView';
 import { TeamWeek, Schedule } from './Interfaces';
 import './App.css';
 
@@ -28,6 +26,7 @@ type AppState = {
   week: number;
   allSchedule: Schedule[];
   currentSchedule: Schedule[][];
+  compiledSchedule: Schedule[][][];
 };
 
 class App extends React.Component<AppProps, AppState> {
@@ -44,7 +43,8 @@ class App extends React.Component<AppProps, AppState> {
     weeklyRecords: [],
     allSchedule: [],
     currentSchedule: [],
-    view: 'standings',
+    compiledSchedule: [],
+    view: 'schedule',
     week: 1,
   };
 
@@ -58,11 +58,13 @@ class App extends React.Component<AppProps, AppState> {
     const allSchedule: Schedule[] = await getSchedule();
     const currentSchedule: Schedule[][] = getCurrentSchedule(allSchedule);
     const combinedRecords: TeamWeek[] = calculateOverallStats(allRecords);
+    const compiledSchedule = compileSchedule(allSchedule);
     this.setState({
       allRecords,
       combinedRecords,
       allSchedule,
       currentSchedule,
+      compiledSchedule,
     });
   }
 
@@ -93,20 +95,26 @@ class App extends React.Component<AppProps, AppState> {
   render() {
     return (
       <div>
-        <HomeNavbar></HomeNavbar>
+        <HomeNavbar onClick={this.changeViewClick} />
         <Container>
           <Row>
             <Col lg={8}>
-              <StandingsView
+              <MainView
                 view={this.state.view}
                 teams={this.state.combinedRecords}
+                allSchedule={this.state.allSchedule}
+                compiledSchedule={this.state.compiledSchedule}
                 onClickView={this.changeViewClick}
                 onClickAsc={this.standingsAscSortClick}
                 onClickDesc={this.standingsDescSortClick}
               />
             </Col>
             <Col lg={4}>
-              <ScheduleSidebar schedule={this.state.currentSchedule} />
+              <SidebarView
+                teams={this.state.combinedRecords}
+                view={this.state.view}
+                schedule={this.state.currentSchedule}
+              />
             </Col>
           </Row>
         </Container>

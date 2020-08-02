@@ -24,7 +24,7 @@ const DivisionStandings = (props: DivisionStandingsProps) => (
       </tr>
     </thead>
     {divisions.map((division) => (
-      <tbody>
+      <tbody key={division.divisionName}>
         <tr>
           <td colSpan={6}>
             <b>{division.divisionName}</b>
