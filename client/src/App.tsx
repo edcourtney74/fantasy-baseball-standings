@@ -44,7 +44,7 @@ class App extends React.Component<AppProps, AppState> {
     allSchedule: [],
     currentSchedule: [],
     compiledSchedule: [],
-    view: 'schedule',
+    view: 'standings',
     week: 1,
   };
 
