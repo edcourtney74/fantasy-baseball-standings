@@ -176,7 +176,7 @@ export const getLastUpdated = (allSchedule: Schedule[]): string => {
   // Get time_completed of record - if undefined, return empty string
   let lastUpdatedTime = lastUpdatedObj !== undefined ? lastUpdatedObj.time_completed : '';
   if (lastUpdatedTime.length > 0) {
-    lastUpdatedTime = new Date(lastUpdatedTime).toLocaleString();
+    lastUpdatedTime = new Date(lastUpdatedTime).toLocaleString('en-US', { timeZone: 'America/New_York' });
   }
   return lastUpdatedTime;
 };
