@@ -41,7 +41,7 @@ const DivisionStandings = (props: DivisionStandingsProps) => (
                 <td className='text-center'>{team.wins}</td>
                 <td className='text-center'>{team.losses}</td>
                 <td className='text-center'>{team.ties}</td>
-                <td className='text-center'>{team.total_points}</td>
+                <td className='text-center'>{team.total_points.toFixed(2)}</td>
               </tr>
             );
         })}

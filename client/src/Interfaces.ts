@@ -22,4 +22,6 @@ export interface Schedule {
   grouping: number;
   start_date: string;
   end_date: string;
+  completed: boolean;
+  time_completed: string;
 }

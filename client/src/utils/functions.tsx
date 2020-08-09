@@ -164,3 +164,19 @@ export const compileSchedule = (allSchedule: Schedule[]): Schedule[][][] => {
   finalGroupedSchedule.push(currentWeekGroup);
   return finalGroupedSchedule;
 };
+
+export const getLastUpdated = (allSchedule: Schedule[]): string => {
+  // Find weeks with complete results, put weeks in array, then find max value
+  const mostRecentWeek = allSchedule
+    .filter((item) => item.time_completed)
+    .map((rec) => rec.week)
+    .reduce((a, b) => Math.max(a, b));
+  // Get info for one record with mostRecentWeek
+  const lastUpdatedObj: Schedule | undefined = allSchedule.find((sked) => sked.week === mostRecentWeek);
+  // Get time_completed of record - if undefined, return empty string
+  let lastUpdatedTime = lastUpdatedObj !== undefined ? lastUpdatedObj.time_completed : '';
+  if (lastUpdatedTime.length > 0) {
+    lastUpdatedTime = new Date(lastUpdatedTime).toLocaleString();
+  }
+  return lastUpdatedTime;
+};

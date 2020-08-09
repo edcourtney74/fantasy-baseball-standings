@@ -7,6 +7,7 @@ import {
   getWeeklyResults,
   getCurrentSchedule,
   compileSchedule,
+  getLastUpdated,
 } from './utils/functions';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -27,6 +28,7 @@ type AppState = {
   allSchedule: Schedule[];
   currentSchedule: Schedule[][];
   compiledSchedule: Schedule[][][];
+  lastUpdated: string;
 };
 
 class App extends React.Component<AppProps, AppState> {
@@ -46,6 +48,7 @@ class App extends React.Component<AppProps, AppState> {
     compiledSchedule: [],
     view: 'standings',
     week: 1,
+    lastUpdated: '',
   };
 
   async componentDidMount() {
@@ -59,12 +62,14 @@ class App extends React.Component<AppProps, AppState> {
     const currentSchedule: Schedule[][] = getCurrentSchedule(allSchedule);
     const combinedRecords: TeamWeek[] = calculateOverallStats(allRecords);
     const compiledSchedule = compileSchedule(allSchedule);
+    const lastUpdated = getLastUpdated(allSchedule);
     this.setState({
       allRecords,
       combinedRecords,
       allSchedule,
       currentSchedule,
       compiledSchedule,
+      lastUpdated,
     });
   }
 
@@ -104,6 +109,7 @@ class App extends React.Component<AppProps, AppState> {
                 teams={this.state.combinedRecords}
                 allSchedule={this.state.allSchedule}
                 compiledSchedule={this.state.compiledSchedule}
+                lastUpdated={this.state.lastUpdated}
                 onClickView={this.changeViewClick}
                 onClickAsc={this.standingsAscSortClick}
                 onClickDesc={this.standingsDescSortClick}

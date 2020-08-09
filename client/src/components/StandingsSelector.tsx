@@ -4,12 +4,16 @@ import Col from 'react-bootstrap/Col';
 
 type StandingsSelectorProps = {
   view: string;
+  lastUpdated: string;
   onClick: (view: string) => void;
 };
 
 const StandingsSelector = (props: StandingsSelectorProps) => (
   <Row className='align-items-end'>
     <Col lg={3}>{props.view === 'standings' ? <h4 className='mt-3'>Standings</h4> : null}</Col>
+    <Col lg={9} className='mb-1'>
+      <small>Last updated: {props.lastUpdated}</small>
+    </Col>
   </Row>
 );
 

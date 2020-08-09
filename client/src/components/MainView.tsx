@@ -8,6 +8,7 @@ type MainViewProps = {
   teams: TeamWeek[];
   allSchedule: Schedule[];
   compiledSchedule: Schedule[][][];
+  lastUpdated: string;
   onClickView: (val1: string) => void;
   onClickAsc: (val1: string, val2: string) => void;
   onClickDesc: (val1: string, val2: string) => void;
@@ -19,6 +20,7 @@ const MainView = (props: MainViewProps) => (
       <StandingsView
         view={props.view}
         teams={props.teams}
+        lastUpdated={props.lastUpdated}
         onClickView={props.onClickView}
         onClickAsc={props.onClickAsc}
         onClickDesc={props.onClickDesc}

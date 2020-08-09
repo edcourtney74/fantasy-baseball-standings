@@ -7,6 +7,7 @@ import DivisionStandings from './DivisionStandings';
 type StandingsViewProps = {
   view: string;
   teams: TeamWeek[];
+  lastUpdated: string;
   onClickView: (view: string) => void;
   onClickAsc: (val1: string, val2: string) => void;
   onClickDesc: (val1: string, val2: string) => void;
@@ -14,7 +15,7 @@ type StandingsViewProps = {
 
 const StandingsView = (props: StandingsViewProps) => (
   <div>
-    <StandingsSelector view={props.view} onClick={props.onClickView} />
+    <StandingsSelector view={props.view} lastUpdated={props.lastUpdated} onClick={props.onClickView} />
     {props.view === 'standings' && (
       <DivisionStandings teams={props.teams} onClickAsc={props.onClickAsc} onClickDesc={props.onClickDesc} />
     )}

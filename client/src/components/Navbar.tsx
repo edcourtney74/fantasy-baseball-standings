@@ -7,7 +7,7 @@ type HomeNavbarProps = {
 };
 
 const HomeNavbar = (props: HomeNavbarProps) => (
-  <Navbar variant='dark'>
+  <Navbar collapseOnSelect expand='sm' variant='dark'>
     <Navbar.Brand>LPH Fantasy Baseball</Navbar.Brand>
     <Navbar.Toggle aria-controls='basic-navbar-nav' />
     <Navbar.Collapse id='basic-navbar-nav'>
