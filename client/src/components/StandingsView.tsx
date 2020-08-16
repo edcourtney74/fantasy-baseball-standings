@@ -3,10 +3,12 @@ import React from 'react';
 import { TeamWeek } from '../Interfaces';
 import StandingsSelector from './StandingsSelector';
 import DivisionStandings from './DivisionStandings';
+import OverallStandings from './OverallStandings';
 
 type StandingsViewProps = {
-  view: string;
   teams: TeamWeek[];
+  standingsView: string;
+  statsView: string;
   lastUpdated: string;
   onClickView: (view: string) => void;
   onClickAsc: (val1: string, val2: string) => void;
@@ -15,9 +17,20 @@ type StandingsViewProps = {
 
 const StandingsView = (props: StandingsViewProps) => (
   <div>
-    <StandingsSelector view={props.view} lastUpdated={props.lastUpdated} onClick={props.onClickView} />
-    {props.view === 'standings' && (
-      <DivisionStandings teams={props.teams} onClickAsc={props.onClickAsc} onClickDesc={props.onClickDesc} />
+    <StandingsSelector
+      standingsView={props.standingsView}
+      lastUpdated={props.lastUpdated}
+      onClick={props.onClickView}
+    />
+    {props.standingsView === 'division' ? (
+      <DivisionStandings teams={props.teams} />
+    ) : (
+      <OverallStandings
+        teams={props.teams}
+        statsView={props.statsView}
+        onClickAsc={props.onClickAsc}
+        onClickDesc={props.onClickDesc}
+      />
     )}
   </div>
 );

@@ -38,7 +38,7 @@ const StandingsSidebar = (props: StandingsSidebarProps) => (
                   </td>
                   <td>{team.team_name}</td>
                   <td className='text-center'>{team.wins}</td>
-                  <td className='text-center'>{team.total_points}</td>
+                  <td className='text-center'>{team.total_points.toFixed(2)}</td>
                 </tr>
               );
           })}

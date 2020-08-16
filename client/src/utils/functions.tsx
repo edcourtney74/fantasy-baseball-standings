@@ -77,17 +77,17 @@ export const sortAscStandings = (teams: TeamWeek[], sortVal1: string, sortVal2: 
 export const sortDescStandings = (teams: TeamWeek[], sortVal1: string, sortVal2: string) => {
   return teams.sort((a, b) => {
     if (a[sortVal1] > b[sortVal1]) {
-      return -1;
+      return 1;
     }
     if (b[sortVal1] > a[sortVal1]) {
-      return 1;
+      return -1;
     }
     // If losses are equal, sort by lowest total points
     if (b[sortVal2] > a[sortVal2]) {
-      return -1;
+      return 1;
     }
     if (a[sortVal2] > b[sortVal2]) {
-      return 1;
+      return -1;
     }
     return 0;
   });

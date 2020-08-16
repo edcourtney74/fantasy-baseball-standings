@@ -5,8 +5,6 @@ import { divisions } from '../utils/divisions';
 
 type DivisionStandingsProps = {
   teams: TeamWeek[];
-  onClickAsc: (val1: string, val2: string) => void;
-  onClickDesc: (val1: string, val2: string) => void;
 };
 
 const DivisionStandings = (props: DivisionStandingsProps) => (

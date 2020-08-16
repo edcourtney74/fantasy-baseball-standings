@@ -2,36 +2,22 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 import { TeamWeek, Division } from '../Interfaces';
 
-type DivisionStandingsProps = {
+type OverallStandingsProps = {
   teams: TeamWeek[];
+  statsView: string;
   onClickAsc: (val1: string, val2: string) => void;
   onClickDesc: (val1: string, val2: string) => void;
 };
 
-const divisions: Division[] = [
-  {
-    divisionName: 'Al Leiter',
-    teams: ['Bugeaters', 'Christa Davis', 'HIGHLANDERS', 'Oliver & Company'],
-  },
-  {
-    divisionName: 'Bobby Jones',
-    teams: ['The New Guy', 'SSP Baseball Team', 'The Big Tenowskis', 'The Hebrew Hammers'],
-  },
-  {
-    divisionName: 'Mike Hampton',
-    teams: ['African Gray Parrots', 'Bombers', 'For-ev-er', 'Legendary'],
-  },
-  {
-    divisionName: 'Turk Wendell',
-    teams: ['Easy Lover', 'Seductive Moves', 'TBD', 'The D Squad'],
-  },
-];
-
-const DivisionStandings = (props: DivisionStandingsProps) => (
+const OverallStandings = (props: OverallStandingsProps) => (
   <Table bordered responsive>
     <thead>
       <tr>
-        <th>Rank</th>
+        <th>
+          <a href='#' onClick={() => props.onClickDesc('rank', 'total_points')}>
+            Rank
+          </a>
+        </th>
         <th>Team Name</th>
         <th>
           <a href='#' onClick={() => props.onClickAsc('wins', 'total_points')}>
@@ -55,29 +41,39 @@ const DivisionStandings = (props: DivisionStandingsProps) => (
         </th>
       </tr>
     </thead>
-    {divisions.map((division) => (
+    {props.statsView === 'overall' || props.statsView === 'rank' ? (
       <tbody>
-        <tr>
-          <td colSpan={6}>
-            <b>{division.divisionName}</b>
-          </td>
-        </tr>
-        {props.teams.map((team) => {
-          if (division.teams.includes(team.team_name))
-            return (
-              <tr key={team.team_name}>
-                <td>{team.rank}</td>
-                <td>{team.team_name}</td>
-                <td>{team.wins}</td>
-                <td>{team.losses}</td>
-                <td>{team.ties}</td>
-                <td>{team.total_points}</td>
-              </tr>
-            );
-        })}
+        {props.teams.map((team, i) => (
+          <tr className={i >= 8 ? 'bg-light' : ''} key={team.team_name}>
+            <td>
+              {team.rank}
+              {i <= 3 && '*'}
+            </td>
+            <td>{team.team_name}</td>
+            <td>{team.wins}</td>
+            <td>{team.losses}</td>
+            <td>{team.ties}</td>
+            <td>{team.total_points.toFixed(2)}</td>
+          </tr>
+        ))}
       </tbody>
-    ))}
+    ) : (
+      <tbody>
+        {props.teams.map((team, i) => (
+          <tr key={team.team_name}>
+            <td>{i + 1}</td>
+            <td>{team.team_name}</td>
+            <td>{team.wins}</td>
+            <td>{team.losses}</td>
+            <td>{team.ties}</td>
+            <td>{team.total_points.toFixed(2)}</td>
+          </tr>
+        ))}
+      </tbody>
+    )}
+
+    <small>* Division leader</small>
   </Table>
 );
 
-export default DivisionStandings;
+export default OverallStandings;

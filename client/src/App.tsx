@@ -23,12 +23,14 @@ type AppState = {
   allRecords: TeamWeek[];
   combinedRecords: TeamWeek[];
   weeklyRecords: TeamWeek[][];
-  view: string;
+  standingsView: string;
+  statsView: string;
+  lastUpdated: string;
+  mainView: string;
   week: number;
   allSchedule: Schedule[];
   currentSchedule: Schedule[][];
   compiledSchedule: Schedule[][][];
-  lastUpdated: string;
 };
 
 class App extends React.Component<AppProps, AppState> {
@@ -36,17 +38,20 @@ class App extends React.Component<AppProps, AppState> {
     super(props);
     this.standingsAscSortClick = this.standingsAscSortClick.bind(this);
     this.standingsDescSortClick = this.standingsDescSortClick.bind(this);
-    this.changeViewClick = this.changeViewClick.bind(this);
+    this.changeMainViewClick = this.changeMainViewClick.bind(this);
+    this.changeStandingsViewClick = this.changeStandingsViewClick.bind(this);
   }
 
   state: AppState = {
     allRecords: [],
     combinedRecords: [],
     weeklyRecords: [],
+    standingsView: 'division',
+    statsView: 'overall',
     allSchedule: [],
     currentSchedule: [],
     compiledSchedule: [],
-    view: 'standings',
+    mainView: 'standings',
     week: 1,
     lastUpdated: '',
   };
@@ -78,6 +83,7 @@ class App extends React.Component<AppProps, AppState> {
     const sorted = sortAscStandings(this.state.combinedRecords, val1, val2);
     this.setState({
       combinedRecords: sorted,
+      statsView: val1,
     });
   }
 
@@ -86,31 +92,38 @@ class App extends React.Component<AppProps, AppState> {
     const sorted = sortDescStandings(this.state.combinedRecords, val1, val2);
     this.setState({
       combinedRecords: sorted,
+      statsView: val1,
     });
   }
 
-  changeViewClick(view: string): void {
-    // const weeklyRecords = getWeeklyResults(this.state.allRecords, 1);
+  changeMainViewClick(view: string): void {
     this.setState({
-      view,
-      // weeklyRecords,
+      mainView: view,
+    });
+  }
+
+  changeStandingsViewClick(view: string): void {
+    this.setState({
+      standingsView: view,
     });
   }
 
   render() {
     return (
       <div>
-        <HomeNavbar onClick={this.changeViewClick} />
+        <HomeNavbar onClick={this.changeMainViewClick} />
         <Container>
           <Row>
             <Col lg={8}>
               <MainView
-                view={this.state.view}
+                mainView={this.state.mainView}
                 teams={this.state.combinedRecords}
+                standingsView={this.state.standingsView}
+                statsView={this.state.statsView}
                 allSchedule={this.state.allSchedule}
                 compiledSchedule={this.state.compiledSchedule}
                 lastUpdated={this.state.lastUpdated}
-                onClickView={this.changeViewClick}
+                onClickStandingsView={this.changeStandingsViewClick}
                 onClickAsc={this.standingsAscSortClick}
                 onClickDesc={this.standingsDescSortClick}
               />
@@ -118,7 +131,7 @@ class App extends React.Component<AppProps, AppState> {
             <Col lg={4}>
               <SidebarView
                 teams={this.state.combinedRecords}
-                view={this.state.view}
+                mainView={this.state.mainView}
                 schedule={this.state.currentSchedule}
               />
             </Col>

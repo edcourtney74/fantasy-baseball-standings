@@ -4,29 +4,32 @@ import ScheduleFull from './ScheduleFull';
 import { TeamWeek, Schedule } from '../Interfaces';
 
 type MainViewProps = {
-  view: string;
+  mainView: string;
   teams: TeamWeek[];
+  standingsView: string;
+  statsView: string;
   allSchedule: Schedule[];
   compiledSchedule: Schedule[][][];
   lastUpdated: string;
-  onClickView: (val1: string) => void;
+  onClickStandingsView: (val1: string) => void;
   onClickAsc: (val1: string, val2: string) => void;
   onClickDesc: (val1: string, val2: string) => void;
 };
 
 const MainView = (props: MainViewProps) => (
   <div>
-    {props.view === 'standings' && (
+    {props.mainView === 'standings' && (
       <StandingsView
-        view={props.view}
         teams={props.teams}
+        standingsView={props.standingsView}
+        statsView={props.statsView}
         lastUpdated={props.lastUpdated}
-        onClickView={props.onClickView}
+        onClickView={props.onClickStandingsView}
         onClickAsc={props.onClickAsc}
         onClickDesc={props.onClickDesc}
       />
     )}
-    {props.view === 'schedule' && <ScheduleFull schedule={props.compiledSchedule} />}
+    {props.mainView === 'schedule' && <ScheduleFull schedule={props.compiledSchedule} />}
   </div>
 );
 
