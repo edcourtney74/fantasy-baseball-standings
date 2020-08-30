@@ -8,9 +8,10 @@ export const calculateOverallStats = (allRecords: TeamWeek[]): TeamWeek[] => {
 
   // Combine wins, losses, ties, points
   allRecords.forEach((rec) => {
-    const { team_name, wins, losses, ties, total_points } = rec;
+    const recCopy = Object.assign({}, rec);
+    const { team_name, wins, losses, ties, total_points } = recCopy;
     if (!teamNamesCollected.includes(team_name)) {
-      combinedRecs.push(rec);
+      combinedRecs.push(recCopy);
       teamNamesCollected.push(team_name);
     } else {
       const teamIndex = combinedRecs.findIndex((combRec) => combRec.team_name === team_name);
@@ -20,7 +21,6 @@ export const calculateOverallStats = (allRecords: TeamWeek[]): TeamWeek[] => {
       combinedRecs[teamIndex].total_points += total_points;
     }
   });
-
   // Sort by wins initially
   const sortedTeams = sortAscStandings(combinedRecs, 'wins', 'total_points');
 
@@ -111,8 +111,10 @@ export const getWeeklyResults = (allRecords: TeamWeek[], week: number): TeamWeek
   return groups;
 };
 
+export const addResultsToSchedule = (allSchedule: Schedule[], allRecords: TeamWeek[]) => {};
+
 // Get schedule by current week and sort into arrays base on grouping
-export const getCurrentSchedule = (allSchedule: Schedule[]): Schedule[][] => {
+export const setCurrentSchedule = (allSchedule: Schedule[]): Schedule[][] => {
   const today = new Date().toISOString().slice(0, 10);
   const weeksGames = allSchedule.filter(
     (sked) =>

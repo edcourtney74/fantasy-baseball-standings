@@ -5,7 +5,8 @@ import {
   sortAscStandings,
   sortDescStandings,
   getWeeklyResults,
-  getCurrentSchedule,
+  addResultsToSchedule,
+  setCurrentSchedule,
   compileSchedule,
   getLastUpdated,
 } from './utils/functions';
@@ -64,7 +65,7 @@ class App extends React.Component<AppProps, AppState> {
   async getInitialStats(): Promise<void> {
     const allRecords: TeamWeek[] = await getAllResults();
     const allSchedule: Schedule[] = await getSchedule();
-    const currentSchedule: Schedule[][] = getCurrentSchedule(allSchedule);
+    const currentSchedule: Schedule[][] = setCurrentSchedule(allSchedule);
     const combinedRecords: TeamWeek[] = calculateOverallStats(allRecords);
     const compiledSchedule = compileSchedule(allSchedule);
     const lastUpdated = getLastUpdated(allSchedule);
@@ -111,32 +112,36 @@ class App extends React.Component<AppProps, AppState> {
   render() {
     return (
       <div>
-        <HomeNavbar onClick={this.changeMainViewClick} />
-        <Container>
-          <Row>
-            <Col lg={8}>
-              <MainView
-                mainView={this.state.mainView}
-                teams={this.state.combinedRecords}
-                standingsView={this.state.standingsView}
-                statsView={this.state.statsView}
-                allSchedule={this.state.allSchedule}
-                compiledSchedule={this.state.compiledSchedule}
-                lastUpdated={this.state.lastUpdated}
-                onClickStandingsView={this.changeStandingsViewClick}
-                onClickAsc={this.standingsAscSortClick}
-                onClickDesc={this.standingsDescSortClick}
-              />
-            </Col>
-            <Col lg={4}>
-              <SidebarView
-                teams={this.state.combinedRecords}
-                mainView={this.state.mainView}
-                schedule={this.state.currentSchedule}
-              />
-            </Col>
-          </Row>
-        </Container>
+        {this.state.combinedRecords.length > 0 && (
+          <div>
+            <HomeNavbar onClick={this.changeMainViewClick} />
+            <Container>
+              <Row>
+                <Col lg={8}>
+                  <MainView
+                    mainView={this.state.mainView}
+                    teams={this.state.combinedRecords}
+                    standingsView={this.state.standingsView}
+                    statsView={this.state.statsView}
+                    allSchedule={this.state.allSchedule}
+                    compiledSchedule={this.state.compiledSchedule}
+                    lastUpdated={this.state.lastUpdated}
+                    onClickStandingsView={this.changeStandingsViewClick}
+                    onClickAsc={this.standingsAscSortClick}
+                    onClickDesc={this.standingsDescSortClick}
+                  />
+                </Col>
+                <Col lg={4}>
+                  <SidebarView
+                    teams={this.state.combinedRecords}
+                    mainView={this.state.mainView}
+                    schedule={this.state.currentSchedule}
+                  />
+                </Col>
+              </Row>
+            </Container>
+          </div>
+        )}
       </div>
     );
   }

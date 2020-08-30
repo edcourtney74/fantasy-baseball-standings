@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { TeamWeek } from '../Interfaces';
+import Leaders from './Leaders';
 import StandingsSelector from './StandingsSelector';
 import DivisionStandings from './DivisionStandings';
 import OverallStandings from './OverallStandings';
@@ -17,6 +18,7 @@ type StandingsViewProps = {
 
 const StandingsView = (props: StandingsViewProps) => (
   <div>
+    <Leaders teams={props.teams} />
     <StandingsSelector
       standingsView={props.standingsView}
       lastUpdated={props.lastUpdated}

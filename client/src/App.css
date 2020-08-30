@@ -12,6 +12,33 @@ nav {
   margin-bottom: 1rem;
 }
 
+#first-place {
+  height: 3rem;
+  width: 35rem;
+  background-color: #d33658;
+  border: 0.5px solid black;
+  color: white;
+  font-size: 2rem;
+}
+
+#second-place {
+  height: 2.5rem;
+  width: 25rem;
+  background-color: #9bcaf1;
+  border: 0.5px solid black;
+  color: white;
+  font-size: 1.5rem;
+}
+
+#third-place {
+  height: 2rem;
+  width: 18rem;
+  background-color: #f4c804;
+  border: 0.5px solid black;
+  color: white;
+  font-size: 1rem;
+}
+
 #rank-col {
   padding-right: 1rem;
 }
