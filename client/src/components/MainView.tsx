@@ -1,11 +1,12 @@
 import React from 'react';
 import StandingsView from './StandingsView';
 import ScheduleFull from './ScheduleFull';
-import { TeamWeek, Schedule } from '../Interfaces';
+import { TeamWeek, Schedule, LeadersInfo } from '../Interfaces';
 
 type MainViewProps = {
   mainView: string;
-  teams: TeamWeek[];
+  teamRecords: TeamWeek[];
+  leaders: LeadersInfo[];
   standingsView: string;
   statsView: string;
   allSchedule: Schedule[];
@@ -20,7 +21,8 @@ const MainView = (props: MainViewProps) => (
   <div>
     {props.mainView === 'standings' && (
       <StandingsView
-        teams={props.teams}
+        teamRecords={props.teamRecords}
+        leaders={props.leaders}
         standingsView={props.standingsView}
         statsView={props.statsView}
         lastUpdated={props.lastUpdated}

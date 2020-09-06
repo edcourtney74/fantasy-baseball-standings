@@ -25,3 +25,14 @@ export interface Schedule {
   completed: boolean;
   time_completed: string;
 }
+
+export interface TeamInfo {
+  team_name: string;
+  nickname: string;
+}
+
+export interface LeadersInfo {
+  wins: number;
+  nickname: string;
+  barWidth: number;
+}

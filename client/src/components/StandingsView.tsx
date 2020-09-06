@@ -1,13 +1,14 @@
 import React from 'react';
 
-import { TeamWeek } from '../Interfaces';
+import { TeamWeek, LeadersInfo } from '../Interfaces';
 import Leaders from './Leaders';
 import StandingsSelector from './StandingsSelector';
 import DivisionStandings from './DivisionStandings';
 import OverallStandings from './OverallStandings';
 
 type StandingsViewProps = {
-  teams: TeamWeek[];
+  teamRecords: TeamWeek[];
+  leaders: LeadersInfo[];
   standingsView: string;
   statsView: string;
   lastUpdated: string;
@@ -18,17 +19,17 @@ type StandingsViewProps = {
 
 const StandingsView = (props: StandingsViewProps) => (
   <div>
-    <Leaders teams={props.teams} />
+    <Leaders teamRecords={props.teamRecords} leaders={props.leaders} />
     <StandingsSelector
       standingsView={props.standingsView}
       lastUpdated={props.lastUpdated}
       onClick={props.onClickView}
     />
     {props.standingsView === 'division' ? (
-      <DivisionStandings teams={props.teams} />
+      <DivisionStandings teamRecords={props.teamRecords} />
     ) : (
       <OverallStandings
-        teams={props.teams}
+        teamRecords={props.teamRecords}
         statsView={props.statsView}
         onClickAsc={props.onClickAsc}
         onClickDesc={props.onClickDesc}

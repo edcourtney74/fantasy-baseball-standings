@@ -4,7 +4,7 @@ import { TeamWeek, Division } from '../Interfaces';
 import { divisions } from '../utils/divisions';
 
 type DivisionStandingsProps = {
-  teams: TeamWeek[];
+  teamRecords: TeamWeek[];
 };
 
 const DivisionStandings = (props: DivisionStandingsProps) => (
@@ -28,7 +28,7 @@ const DivisionStandings = (props: DivisionStandingsProps) => (
             <b>{division.divisionName}</b>
           </td>
         </tr>
-        {props.teams.map((team) => {
+        {props.teamRecords.map((team) => {
           if (division.teams.includes(team.team_name))
             return (
               <tr key={team.team_name}>

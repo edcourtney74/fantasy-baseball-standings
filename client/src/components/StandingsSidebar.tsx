@@ -4,7 +4,7 @@ import { TeamWeek } from '../Interfaces';
 import Table from 'react-bootstrap/Table';
 
 type StandingsSidebarProps = {
-  teams: TeamWeek[];
+  teamRecords: TeamWeek[];
 };
 
 const StandingsSidebar = (props: StandingsSidebarProps) => (
@@ -29,7 +29,7 @@ const StandingsSidebar = (props: StandingsSidebarProps) => (
               <b>{division.divisionName}</b>
             </td>
           </tr>
-          {props.teams.map((team) => {
+          {props.teamRecords.map((team) => {
             if (division.teams.includes(team.team_name))
               return (
                 <tr key={team.team_name}>

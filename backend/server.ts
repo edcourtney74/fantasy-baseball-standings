@@ -34,3 +34,6 @@ pool.query(
 pool.query(
   `CREATE TABLE IF NOT EXISTS schedule (id INT AUTO_INCREMENT PRIMARY KEY, team_name VARCHAR(255), week INT, grouping INT, start_date DATE, end_date DATE);`,
 );
+pool.query(
+  `CREATE TABLE IF NOT EXISTS teams (id INT AUTO_INCREMENT PRIMARY KEY, team_name VARCHAR(255), nickname VARCHAR(20));`,
+);

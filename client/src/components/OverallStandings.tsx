@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table';
 import { TeamWeek, Division } from '../Interfaces';
 
 type OverallStandingsProps = {
-  teams: TeamWeek[];
+  teamRecords: TeamWeek[];
   statsView: string;
   onClickAsc: (val1: string, val2: string) => void;
   onClickDesc: (val1: string, val2: string) => void;
@@ -43,7 +43,7 @@ const OverallStandings = (props: OverallStandingsProps) => (
     </thead>
     {props.statsView === 'overall' || props.statsView === 'rank' ? (
       <tbody>
-        {props.teams.map((team, i) => (
+        {props.teamRecords.map((team, i) => (
           <tr className={i >= 8 ? 'bg-light' : ''} key={team.team_name}>
             <td>
               {team.rank}
@@ -59,7 +59,7 @@ const OverallStandings = (props: OverallStandingsProps) => (
       </tbody>
     ) : (
       <tbody>
-        {props.teams.map((team, i) => (
+        {props.teamRecords.map((team, i) => (
           <tr key={team.team_name}>
             <td>{i + 1}</td>
             <td>{team.team_name}</td>

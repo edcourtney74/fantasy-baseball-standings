@@ -5,14 +5,14 @@ import { TeamWeek, Schedule } from '../Interfaces';
 
 type SidebarViewProps = {
   mainView: string;
-  teams: TeamWeek[];
+  teamRecords: TeamWeek[];
   schedule: Schedule[][];
 };
 
 const SidebarView = (props: SidebarViewProps) => (
   <div>
     {props.mainView === 'standings' && <ScheduleSidebar schedule={props.schedule} />}
-    {props.mainView === 'schedule' && <StandingsSidebar teams={props.teams} />}
+    {props.mainView === 'schedule' && <StandingsSidebar teamRecords={props.teamRecords} />}
   </div>
 );
 

@@ -12,3 +12,7 @@ router.get('/api/stats', (req: Request, res: Response) => {
 router.get('/api/schedule', (req: Request, res: Response) => {
   statsController.getSchedule(req, res);
 });
+
+router.get('/api/teams', (req: Request, res: Response) => {
+  statsController.getTeams(req, res);
+});

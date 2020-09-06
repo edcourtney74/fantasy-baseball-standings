@@ -1,5 +1,5 @@
 import { divisions } from './divisions';
-import { TeamWeek, Division, Schedule } from '../Interfaces';
+import { TeamWeek, Division, Schedule, LeadersInfo, TeamInfo } from '../Interfaces';
 
 // Sorts by wins initially
 export const calculateOverallStats = (allRecords: TeamWeek[]): TeamWeek[] => {
@@ -22,7 +22,7 @@ export const calculateOverallStats = (allRecords: TeamWeek[]): TeamWeek[] => {
     }
   });
   // Sort by wins initially
-  const sortedTeams = sortAscStandings(combinedRecs, 'wins', 'total_points');
+  const sortedTeams = divisionSort(combinedRecs);
 
   // Calculate ranks
   return calculateRanks(sortedTeams);
@@ -51,6 +51,50 @@ const calculateRanks = (teamRecs: TeamWeek[]): TeamWeek[] => {
     rankedTeams.push(remTeam);
   });
   return rankedTeams;
+};
+
+// Get top three league leaders and percentage of wins for 2nd/3rd place to set length of wins bar
+export const getLeaders = (teamRecords: TeamWeek[], teamInfo: TeamInfo[]): LeadersInfo[] => {
+  const leaders: LeadersInfo[] = [];
+  for (let i = 0; i < 3; i++) {
+    const matchedTeamInfo: any | TeamInfo = teamInfo.find((team) => team.team_name === teamRecords[i].team_name);
+    const nickname: string = matchedTeamInfo.nickname;
+    const barWidth = i === 0 ? 10 : (teamRecords[i].wins / teamRecords[0].wins) * 10;
+    const tempObj: LeadersInfo = {
+      nickname,
+      barWidth,
+      wins: teamRecords[i].wins,
+    };
+    leaders.push(tempObj);
+  }
+  return leaders;
+};
+
+// Sort standings by wins, losses, then total_points
+export const divisionSort = (teams: TeamWeek[]): TeamWeek[] => {
+  return teams.sort((a, b) => {
+    if (a['wins'] > b['wins']) {
+      return -1;
+    }
+    if (b['wins'] > a['wins']) {
+      return 1;
+    }
+    // If wins is equal, sort by losses
+    if (b['losses'] > a['losses']) {
+      return -1;
+    }
+    if (a['losses'] > b['losses']) {
+      return 1;
+    }
+    // If losses is equal, sort by total_points
+    if (a['total_points'] > b['total_points']) {
+      return -1;
+    }
+    if (b['total_points'] > a['total_points']) {
+      return 1;
+    }
+    return 0;
+  });
 };
 
 // Sort standings by up to two levels
