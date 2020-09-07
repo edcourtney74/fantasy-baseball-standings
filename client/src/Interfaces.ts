@@ -36,3 +36,14 @@ export interface LeadersInfo {
   nickname: string;
   barWidth: number;
 }
+
+export interface PlayoffTeams {
+  divisionClinchers: string[];
+  playoffClinchers: string[];
+  eliminated: string[];
+}
+
+export interface LastUpdated {
+  lastUpdated: string;
+  completedWeeks: number;
+}

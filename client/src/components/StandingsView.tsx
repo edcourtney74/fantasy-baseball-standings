@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TeamWeek, LeadersInfo } from '../Interfaces';
+import { TeamWeek, LeadersInfo, PlayoffTeams } from '../Interfaces';
 import Leaders from './Leaders';
 import StandingsSelector from './StandingsSelector';
 import DivisionStandings from './DivisionStandings';
@@ -9,6 +9,7 @@ import OverallStandings from './OverallStandings';
 type StandingsViewProps = {
   teamRecords: TeamWeek[];
   leaders: LeadersInfo[];
+  playoffTeams: PlayoffTeams;
   standingsView: string;
   statsView: string;
   lastUpdated: string;
@@ -26,15 +27,19 @@ const StandingsView = (props: StandingsViewProps) => (
       onClick={props.onClickView}
     />
     {props.standingsView === 'division' ? (
-      <DivisionStandings teamRecords={props.teamRecords} />
+      <DivisionStandings teamRecords={props.teamRecords} playoffTeams={props.playoffTeams} />
     ) : (
       <OverallStandings
         teamRecords={props.teamRecords}
+        playoffTeams={props.playoffTeams}
         statsView={props.statsView}
         onClickAsc={props.onClickAsc}
         onClickDesc={props.onClickDesc}
       />
     )}
+    <div className='small'>x - clinched division</div>
+    <div className='small'>y - clinched playoff spot</div>
+    <div className='small'>z - eliminated</div>
   </div>
 );
 

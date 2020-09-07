@@ -1,10 +1,11 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
-import { TeamWeek, Division } from '../Interfaces';
+import { TeamWeek, Division, PlayoffTeams } from '../Interfaces';
 import { divisions } from '../utils/divisions';
 
 type DivisionStandingsProps = {
   teamRecords: TeamWeek[];
+  playoffTeams: PlayoffTeams;
 };
 
 const DivisionStandings = (props: DivisionStandingsProps) => (
@@ -33,6 +34,9 @@ const DivisionStandings = (props: DivisionStandingsProps) => (
             return (
               <tr key={team.team_name}>
                 <td className='text-right' id='rank-col'>
+                  {props.playoffTeams.divisionClinchers.includes(team.team_name) && <span className='small'>x - </span>}
+                  {props.playoffTeams.playoffClinchers.includes(team.team_name) && <span className='small'>y - </span>}
+                  {props.playoffTeams.eliminated.includes(team.team_name) && <span className='small'>z - </span>}
                   {team.rank}
                 </td>
                 <td>{team.team_name}</td>

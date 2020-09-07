@@ -4,6 +4,7 @@ import {
   calculateOverallStats,
   getLeaders,
   divisionSort,
+  getPlayoffTeams,
   sortAscStandings,
   sortDescStandings,
   getWeeklyResults,
@@ -18,7 +19,7 @@ import Col from 'react-bootstrap/Col';
 import HomeNavbar from './components/Navbar';
 import MainView from './components/MainView';
 import SidebarView from './components/SidebarView';
-import { TeamWeek, Schedule, TeamInfo, LeadersInfo } from './Interfaces';
+import { TeamWeek, Schedule, TeamInfo, LeadersInfo, PlayoffTeams } from './Interfaces';
 import './App.css';
 
 type AppProps = {};
@@ -28,6 +29,7 @@ type AppState = {
   weeklyRecords: TeamWeek[][];
   teamInfo: TeamInfo[];
   leaders: LeadersInfo[];
+  playoffTeams: PlayoffTeams;
   standingsView: string;
   statsView: string;
   lastUpdated: string;
@@ -36,6 +38,7 @@ type AppState = {
   allSchedule: Schedule[];
   currentSchedule: Schedule[][];
   compiledSchedule: Schedule[][][];
+  completedWeeks: number;
 };
 
 class App extends React.Component<AppProps, AppState> {
@@ -55,11 +58,17 @@ class App extends React.Component<AppProps, AppState> {
     weeklyRecords: [],
     teamInfo: [],
     leaders: [],
+    playoffTeams: {
+      divisionClinchers: [],
+      playoffClinchers: [],
+      eliminated: [],
+    },
     standingsView: 'division',
     statsView: 'overall',
     allSchedule: [],
     currentSchedule: [],
     compiledSchedule: [],
+    completedWeeks: 0,
     mainView: 'standings',
     week: 1,
     lastUpdated: '',
@@ -75,30 +84,24 @@ class App extends React.Component<AppProps, AppState> {
     const allSchedule: Schedule[] = await getSchedule();
     const teamInfo: TeamInfo[] = await getTeams();
     const combinedRecords: TeamWeek[] = calculateOverallStats(allRecords);
+    const { lastUpdated, completedWeeks } = getLastUpdated(allSchedule);
+    const playoffTeams = getPlayoffTeams(combinedRecords, completedWeeks);
     const leaders: LeadersInfo[] = getLeaders(combinedRecords, teamInfo);
     const currentSchedule: Schedule[][] = setCurrentSchedule(allSchedule);
     const compiledSchedule = compileSchedule(allSchedule);
-    const lastUpdated = getLastUpdated(allSchedule);
     this.setState({
       allRecords,
       combinedRecords,
       teamInfo,
       leaders,
+      playoffTeams,
       allSchedule,
       currentSchedule,
       compiledSchedule,
       lastUpdated,
+      completedWeeks,
     });
   }
-
-  // Sort standings ascending
-  // divisionSortClick(val1: string): void {
-  //   const sorted = divisionSort(this.state.combinedRecords);
-  //   this.setState({
-  //     combinedRecords: sorted,
-  //     statsView: val1,
-  //   });
-  // }
 
   // Sort standings ascending
   standingsAscSortClick(val1: string, val2: string): void {
@@ -151,6 +154,7 @@ class App extends React.Component<AppProps, AppState> {
                     mainView={this.state.mainView}
                     teamRecords={this.state.combinedRecords}
                     leaders={this.state.leaders}
+                    playoffTeams={this.state.playoffTeams}
                     standingsView={this.state.standingsView}
                     statsView={this.state.statsView}
                     allSchedule={this.state.allSchedule}

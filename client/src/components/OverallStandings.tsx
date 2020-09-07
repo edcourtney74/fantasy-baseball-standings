@@ -1,9 +1,10 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
-import { TeamWeek, Division } from '../Interfaces';
+import { TeamWeek, Division, PlayoffTeams } from '../Interfaces';
 
 type OverallStandingsProps = {
   teamRecords: TeamWeek[];
+  playoffTeams: PlayoffTeams;
   statsView: string;
   onClickAsc: (val1: string, val2: string) => void;
   onClickDesc: (val1: string, val2: string) => void;
@@ -46,8 +47,10 @@ const OverallStandings = (props: OverallStandingsProps) => (
         {props.teamRecords.map((team, i) => (
           <tr className={i >= 8 ? 'bg-light' : ''} key={team.team_name}>
             <td>
+              {props.playoffTeams.divisionClinchers.includes(team.team_name) && <span className='small'>x - </span>}
+              {props.playoffTeams.playoffClinchers.includes(team.team_name) && <span className='small'>y - </span>}
+              {props.playoffTeams.eliminated.includes(team.team_name) && <span className='small'>z - </span>}
               {team.rank}
-              {i <= 3 && '*'}
             </td>
             <td>{team.team_name}</td>
             <td>{team.wins}</td>
@@ -71,8 +74,6 @@ const OverallStandings = (props: OverallStandingsProps) => (
         ))}
       </tbody>
     )}
-
-    <small>* Division leader</small>
   </Table>
 );
 

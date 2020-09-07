@@ -1,5 +1,5 @@
 import { divisions } from './divisions';
-import { TeamWeek, Division, Schedule, LeadersInfo, TeamInfo } from '../Interfaces';
+import { TeamWeek, Division, Schedule, LeadersInfo, TeamInfo, PlayoffTeams, LastUpdated } from '../Interfaces';
 
 // Sorts by wins initially
 export const calculateOverallStats = (allRecords: TeamWeek[]): TeamWeek[] => {
@@ -51,6 +51,56 @@ const calculateRanks = (teamRecs: TeamWeek[]): TeamWeek[] => {
     rankedTeams.push(remTeam);
   });
   return rankedTeams;
+};
+
+export const getPlayoffTeams = (teamRecs: TeamWeek[], completedWeeks: number): PlayoffTeams => {
+  const weeksInSeason = 7;
+  const possibleWinsPerWeek = 3;
+  const possibleRemainingWins = (weeksInSeason - completedWeeks) * possibleWinsPerWeek;
+  const divisionClinchers: string[] = [];
+  const playoffClinchers: string[] = [];
+  const eliminated: string[] = [];
+
+  // Go through the teamRecs and check if the division leaders have clinched. Division leaders will be first four teams
+  for (let i = 0; i < 4; i++) {
+    const currentTeam = teamRecs[i];
+    // Get the division of the current team
+    const divIndex: number = divisions.findIndex((division) => division.teams.includes(currentTeam.team_name));
+    const currentDivTeams = divisions[divIndex].teams;
+    // Find the next team in the rankings for that division
+    const secondPlaceTeam: TeamWeek | any = teamRecs
+      .slice(i + 1)
+      .find((team) => currentDivTeams.includes(team.team_name));
+    // If currentTeam has more than the possible wins remaining for the second team, it's clinched the division
+    if (currentTeam.wins > secondPlaceTeam.wins + possibleRemainingWins) {
+      divisionClinchers.push(currentTeam.team_name);
+    }
+  }
+
+  // Go through top 8 teams and see if they've clinched a playoff spot.
+  for (let i = 0; i < 8; i++) {
+    const currentTeam = teamRecs[i];
+    const ninthTeam = teamRecs[8];
+    // If team is already a division clincher, ignore
+    if (!divisionClinchers.includes(currentTeam.team_name)) {
+      if (currentTeam.wins > ninthTeam.wins + possibleRemainingWins) {
+        playoffClinchers.push(currentTeam.team_name);
+      }
+    }
+  }
+  // Go through bottom 8 teams and see if they've been eliminated
+  for (let i = 8; i < teamRecs.length; i++) {
+    const currentTeam = teamRecs[i];
+    const eighthTeam = teamRecs[7];
+    if (currentTeam.wins + possibleRemainingWins < eighthTeam.wins) {
+      eliminated.push(currentTeam.team_name);
+    }
+  }
+  return {
+    divisionClinchers,
+    playoffClinchers,
+    eliminated,
+  };
 };
 
 // Get top three league leaders and percentage of wins for 2nd/3rd place to set length of wins bar
@@ -211,7 +261,7 @@ export const compileSchedule = (allSchedule: Schedule[]): Schedule[][][] => {
   return finalGroupedSchedule;
 };
 
-export const getLastUpdated = (allSchedule: Schedule[]): string => {
+export const getLastUpdated = (allSchedule: Schedule[]): LastUpdated => {
   // Find weeks with complete results, put weeks in array, then find max value
   const mostRecentWeek = allSchedule
     .filter((item) => item.time_completed)
@@ -220,9 +270,9 @@ export const getLastUpdated = (allSchedule: Schedule[]): string => {
   // Get info for one record with mostRecentWeek
   const lastUpdatedObj: Schedule | undefined = allSchedule.find((sked) => sked.week === mostRecentWeek);
   // Get time_completed of record - if undefined, return empty string
-  let lastUpdatedTime = lastUpdatedObj !== undefined ? lastUpdatedObj.time_completed : '';
-  if (lastUpdatedTime.length > 0) {
-    lastUpdatedTime = new Date(lastUpdatedTime).toLocaleString('en-US', { timeZone: 'America/New_York' });
+  let lastUpdated = lastUpdatedObj !== undefined ? lastUpdatedObj.time_completed : '';
+  if (lastUpdated.length > 0) {
+    lastUpdated = new Date(lastUpdated).toLocaleString('en-US', { timeZone: 'America/New_York' });
   }
-  return lastUpdatedTime;
+  return { lastUpdated, completedWeeks: mostRecentWeek };
 };
